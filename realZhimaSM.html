@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <@c.jquery2/>
+    <@c.dialog/>
+    <@c.calendar/>
+    <style type="text/css">
+        html, body{width:400px;height:400px;font-family: "微软雅黑";}
+        *{margin: 0;padding: 0;box-sizing: border-box;}
+        .tab div:hover,.tab div:focus {color: #f50;}
+
+        .padd_40{padding-top: 0px;background: #F5F5F5;}
+        .a{text-align:center;line-height: 35px;position: fixed;top: 0;left: 0;width: 100%;z-index: 10;border-bottom: 1px #ccc solid; background: #f50;color: #fff;}
+        .tab{display: flex;line-height: 35px;height:35px;position: fixed;top: 0px;width: 300px;z-index: 10;border-bottom: 1px #ccc solid;}
+        .tab div{width: 50%;float:left;background: #fff;text-align: center;cursor: pointer;}
+        .tab .active{border-bottom: 2px #f50 solid; color: #f50;}
+        .panel{margin: 0;}
+
+        .refreshtip {position: absolute;left: 0;width: 100%;margin: 10px 0;text-align: center;color: #999;}
+        .swiper-container{overflow: visible;}
+        .loadtip { display: block;width: 100%;line-height: 40px; height: 40px;text-align: center;color: #999;border-top: 1px solid #ddd;}
+        .swiper-container, .w{height: calc(100vh - 120px);}
+        .swiper-slide{height: auto;}
+
+        .text-center{text-align: center;}
+        .list-group{padding-left: 0;margin-bottom: 20px;}
+        .list-group-item{    position: relative; display: block;padding: 10px 15px;margin-bottom: -1px;background-color: #fff;border: 1px solid #ddd;}
+        .list-group-item:first-child {border-top-left-radius: 4px;border-top-right-radius: 4px;}
+    </style>
+</head>
+<body class="padd_40">
+<div class="swiper-container">
+    <div class="swiper-slide list-group">
+        <div class="list-group-item" style="padding-bottom:50px;">
+            <center>
+                <div id="qrCodeImg" style="width:300px;height:300px;margin:10px auto 5px;"></div>
+                <p style="color:#EB7251;font-size:12px;">请使用支付宝手机app扫码认证</p>
+                <input type="button" value="关闭" class="rbtn" style="margin:0px!important;height:30px!important;" onclick="colseDialog()">
+            </center>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="${base}/common/js/zhimaQrcode.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $("#bizNo" , parent.document).val("${bizNo}");
+        var qrcode;
+        // 二维码内容
+        var content = "${param}";
+        content = content.replace(/(^\s*)|(\s*$)/g, "");
+        //console.log(content);
+        // 二维码尺寸
+        var size = 300;
+        // 清除上一次的二维码
+        $('#qrCodeImg').empty();
+        // 创建二维码
+        qrcode = new QRCode(document.getElementById("qrCodeImg"), {
+            width : size,//设置宽高
+            height : size
+        });
+        qrcode.makeCode(content);
+    });
+    function colseDialog(){
+        parent.dialog.list['realNameSM'].close().remove();
+    }
+</script>
+</body>
+</html>
